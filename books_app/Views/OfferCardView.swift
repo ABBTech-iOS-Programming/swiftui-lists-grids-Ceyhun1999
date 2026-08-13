@@ -39,6 +39,7 @@ struct OfferCardView: View {
         }
         .padding(.leading, 20)
         .background(Color(.primaryBg))
+        .padding(24)
         .clipShape(
             UnevenRoundedRectangle(
                 topLeadingRadius: 12,
