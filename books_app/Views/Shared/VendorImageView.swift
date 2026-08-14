@@ -1,9 +1,11 @@
 import SDWebImageSwiftUI
 import SwiftUI
 
-struct BestVendorCardView: View {
+struct VendorImageView: View {
 
     let vendor: Vendor
+    var width: CGFloat? = 100
+    var height: CGFloat = 100
 
     // MARK: - Vendor Image
     private var vendorImage: some View {
@@ -24,12 +26,13 @@ struct BestVendorCardView: View {
     var body: some View {
         vendorImage
             .padding(15)
-            .frame(width: 100, height: 100)
+            .frame(width: width, height: height)
+            .frame(maxWidth: width == nil ? .infinity : nil)
             .background(Color(.bestVendorBg))
             .clipShape(RoundedRectangle(cornerRadius: 8))
     }
 }
 
 #Preview {
-    BestVendorCardView(vendor: Vendor.mockData[0])
+    VendorImageView(vendor: Vendor.mockData[0])
 }

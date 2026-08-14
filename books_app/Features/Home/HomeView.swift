@@ -80,7 +80,7 @@ struct HomeView: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 14) {
                 ForEach(vendors) { vendor in
-                    BestVendorCardView(vendor: vendor)
+                    VendorImageView(vendor: vendor)
                 }
             }
             .padding(.horizontal, 24)
@@ -92,7 +92,7 @@ struct HomeView: View {
         VStack(spacing: 16) {
             SectionHeaderView(
                 title: "Best Vendors",
-                destination: VendordsView()
+                destination: VendorsView()
             )
 
             bestVendors
