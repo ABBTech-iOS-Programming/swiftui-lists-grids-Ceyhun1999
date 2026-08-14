@@ -24,7 +24,7 @@ struct VendorsView: View {
     private let columns = [
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible())
+        GridItem(.flexible()),
     ]
 
     // MARK: - Header Section
@@ -55,21 +55,21 @@ struct VendorsView: View {
 
     // MARK: - Body
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVStack {
-                    headerSection
-                    categorySection
-                    vendorsGrid
-                }
+        ScrollView {
+            LazyVStack {
+                headerSection
+                categorySection
+                vendorsGrid
             }
-            .scrollIndicators(.hidden)
-            .navigationTitle("Vendors")
-            .navigationBarTitleDisplayMode(.inline)
         }
+        .scrollIndicators(.hidden)
+        .navigationTitle("Vendors")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    VendorsView()
+    NavigationStack {
+        VendorsView()
+    }
 }
