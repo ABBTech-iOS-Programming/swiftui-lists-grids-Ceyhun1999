@@ -1,7 +1,5 @@
 import SwiftUI
 
-import SwiftUI
-
 struct SeeAllTextView: View {
     var body: some View {
         Text("See all")

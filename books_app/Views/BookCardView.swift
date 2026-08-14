@@ -3,49 +3,58 @@ import SwiftUI
 
 struct BookCardView: View {
 
-    let imageUrl: String
-    let title: String
-    let price: Double
+    let book: Book
+    var isFlexible: Bool = false
 
+    // MARK: - Book Image
+    private var bookImage: some View {
+        WebImage(url: URL(string: book.imageURL)) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            Color(uiColor: .systemGray5)
+                .overlay {
+                    ProgressView()
+                        .tint(.secondary)
+                }
+        }
+        .frame(minWidth: 130)
+        .frame(height: 204)
+        .clipped()
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    // MARK: - Book Info
+    private var bookInfo: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(book.title)
+                .foregroundStyle(Color(.grayText))
+                .font(.system(size: 14, weight: .medium))
+                .lineLimit(1)
+
+            Text(book.formattedPrice)
+                .foregroundStyle(.burgundy)
+                .font(.system(size: 12, weight: .bold))
+        }
+    }
+
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            WebImage(url: URL(string: imageUrl)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-
-            } placeholder: {
-                Color(uiColor: .systemGray5)
-                    .overlay {
-                        ProgressView()
-                            .tint(.secondary)
-                    }
-            }
-            .frame(minWidth: 130)
-            .frame(height: 204)
-            .clipped()
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-        
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .foregroundStyle(Color(.grayText))
-                    .font(.system(size: 14, weight: .medium))
-
-                Text("$\(String(price))")
-                    .foregroundStyle(.burgundy)
-                    .font(.system(size: 12, weight: .bold))
-            }
+            bookImage
+            bookInfo
         }
-        .frame(width: 130)
-        
+        .frame(width: isFlexible ? nil : 130)
+        .frame(maxWidth: isFlexible ? .infinity : nil)
     }
 }
 
+extension Book {
+    var formattedPrice: String {
+        "$\(price.formatted(.number.precision(.fractionLength(2))))"
+    }
+}
 #Preview {
-    BookCardView(
-        imageUrl:
-            "https://img.magnific.com/free-vector/elegant-love-book-cover-template_23-2148798559.jpg?semt=ais_test_b&w=740&q=80",
-        title: "Text title",
-        price: 14.5
-    )
+    BookCardView(book: Book.mockdata[0])
 }
