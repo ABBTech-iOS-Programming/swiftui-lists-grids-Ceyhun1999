@@ -50,7 +50,7 @@ struct BookDetailView: View {
 
             Text(book.description)
                 .font(.system(size: 14, weight: .regular))
-                .foregroundStyle(Color(.gray2Text))
+                .foregroundStyle(Color.gray2Text)
                 .lineSpacing(4)
             
           
@@ -83,24 +83,24 @@ struct BookDetailView: View {
 
                 Image(systemName: "minus")
                     .foregroundStyle(.gray)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 24, height: 24)
                     .background(Color.gray.opacity(0.15))
                     .clipShape(Circle())
 
                 Text("1")
-                    .font(.headline)
+                    .font(.system(size: 16, weight: .medium))
 
                 Image(systemName: "plus")
                     .foregroundStyle(.white)
-                    .frame(width: 30, height: 30)
+                    .frame(width: 24, height: 24)
                     .background(Color.burgundy)
                     .clipShape(Circle())
             }
 
-            Text("$\(book.price, specifier: "%.2f")")
-                .font(.title3)
-                .fontWeight(.semibold)
+            Text(book.formattedPrice)
+                .font(.system(size: 15, weight: .medium))
                 .foregroundStyle(Color.burgundy)
+            
 
             Spacer()
         }
@@ -111,25 +111,24 @@ struct BookDetailView: View {
         HStack(spacing: 14) {
 
             Text("Continue shopping")
-                .fontWeight(.semibold)
+                .font(.system(size: 16, weight: .bold))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .frame(height: 54)
+                .frame(height: 48)
                 .background(Color.burgundy)
                 .clipShape(Capsule())
 
             Text("View cart")
-                .fontWeight(.semibold)
+                .font(.system(size: 16, weight: .bold))
                 .foregroundStyle(Color.burgundy)
                 .frame(width: 130)
-                .frame(height: 54)
+                .frame(height: 48)
                 .background(Color.burgundy.opacity(0.06))
                 .clipShape(Capsule())
         }
     }
 
     // MARK: - Body
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {

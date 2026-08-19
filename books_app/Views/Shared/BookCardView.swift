@@ -55,6 +55,7 @@ extension Book {
         "$\(price.formatted(.number.precision(.fractionLength(2))))"
     }
 }
+
 #Preview {
     BookCardView(book: Book.mockdata[0])
 }
