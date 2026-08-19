@@ -1,6 +1,6 @@
 import Foundation
 
-struct Vendor: Identifiable {
+struct Vendor: Identifiable{
     let id = UUID()
     let name: String
     let imageURL: String
@@ -9,7 +9,6 @@ struct Vendor: Identifiable {
 }
 
 extension Vendor {
-
     static let mockData: [Vendor] = [
         Vendor(
             name: "Resant",

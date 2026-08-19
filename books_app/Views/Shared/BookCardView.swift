@@ -50,11 +50,6 @@ struct BookCardView: View {
     }
 }
 
-extension Book {
-    var formattedPrice: String {
-        "$\(price.formatted(.number.precision(.fractionLength(2))))"
-    }
-}
 #Preview {
     BookCardView(book: Book.mockdata[0])
 }

@@ -5,14 +5,17 @@ struct AuthorsView: View {
     // MARK: - Mock Data
     private let authors = Author.mockData
     private let categories = Author.categories
-
+    
     // MARK: - State
     @State private var selectedCategory = "All"
     @State private var searchText = ""
     @State private var isSearching = false
 
+    @FocusState private var isSearchFocused: Bool
+
     // MARK: - Filtered Authors
     private var filteredAuthors: [Author] {
+        
         var result = authors
 
         if selectedCategory != "All" {
@@ -40,6 +43,7 @@ struct AuthorsView: View {
 
     // MARK: - Category Section
     private var categorySection: some View {
+
         CategoryView(
             categories: categories,
             selectedCategory: $selectedCategory
@@ -49,14 +53,23 @@ struct AuthorsView: View {
     // MARK: - Authors List
     private var authorsList: some View {
         LazyVStack(spacing: 28) {
+
             ForEach(filteredAuthors) { author in
-                AuthorRowView(author: author)
+
+                NavigationLink(
+                    value: Root.authorsDetail(author)
+                ) {
+
+                    AuthorRowView(author: author)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(.horizontal, 24)
     }
 
     // MARK: - Body
+
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading) {
@@ -66,20 +79,69 @@ struct AuthorsView: View {
             }
         }
         .scrollIndicators(.hidden)
-        .navigationTitle("Authors")
         .navigationBarTitleDisplayMode(.inline)
-        .searchable(
-            text: $searchText,
-            isPresented: $isSearching,
-            prompt: "Search authors"
-        )
         .toolbar {
+
+            // MARK: - Title / Search Field
+            ToolbarItem(placement: .principal) {
+                Group {
+                    if isSearching {
+                        HStack(spacing: 10) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundStyle(.secondary)
+
+                            TextField(
+                                "Search author...",
+                                text: $searchText
+                            )
+                            .textFieldStyle(.plain)
+                            .focused($isSearchFocused)
+
+                            if !searchText.isEmpty {
+                                Button {
+                                    searchText = ""
+                                } label: {
+
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                        .frame(height: 38)
+                        .background(Color(.systemGray6))
+                        .clipShape(Capsule())
+                        .frame(width: 280)
+
+                    } else {
+
+                        Text("Authors")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                }
+            }
+
+            // MARK: - Search Button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    isSearching = true
+                    withAnimation(.easeInOut(duration: 0.25)) {
+                        isSearching.toggle()
+                    }
+
+                    if isSearching {
+                        isSearchFocused = true
+                    } else {
+                        searchText = ""
+                        isSearchFocused = false
+                    }
+
                 } label: {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Color(.grayText))
+                    Image(
+                        systemName: isSearching
+                            ? "xmark"
+                            : "magnifyingglass"
+                    )
+                    .foregroundStyle(Color.grayText)
                 }
             }
         }
