@@ -2,6 +2,8 @@ import SwiftUI
 
 struct HomeView: View {
 
+    @StateObject private var navigationViewModel = NavigationViewModel()
+
     // MARK: - Mock Data
     var books: [Book] = Book.mockdata
     var vendors: [Vendor] = Vendor.mockData
@@ -9,7 +11,7 @@ struct HomeView: View {
 
     // MARK: - State
     @State private var selectedOfferIndex = 0
-
+    
     // MARK: - Discounted Books
     private var discountedBooks: [Book] {
         books.filter { $0.discount != nil }
@@ -17,8 +19,13 @@ struct HomeView: View {
 
     // MARK: - Offer Section
     var offerCarousel: some View {
+
         TabView(selection: $selectedOfferIndex) {
-            ForEach(Array(discountedBooks.enumerated()), id: \.element.id) { index, book in
+            ForEach(
+                Array(discountedBooks.enumerated()),
+                id: \.element.id
+            ) { index, book in
+
                 OfferCardView(book: book)
                     .tag(index)
             }
@@ -28,6 +35,7 @@ struct HomeView: View {
     }
 
     var offerPageIndicator: some View {
+
         HStack(spacing: 8) {
             ForEach(0..<discountedBooks.count, id: \.self) { index in
                 Circle()
@@ -45,6 +53,7 @@ struct HomeView: View {
     }
 
     var offerSection: some View {
+
         VStack {
             offerCarousel
             offerPageIndicator
@@ -53,10 +62,16 @@ struct HomeView: View {
 
     // MARK: - Top of Week Section
     var topOfWeekBooks: some View {
+
         ScrollView(.horizontal) {
             LazyHStack(spacing: 10) {
                 ForEach(books) { book in
-                    BookCardView(book: book)
+                    NavigationLink(
+                        value: Root.bookDetail(book)
+                    ) {
+                        BookCardView(book: book)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 24)
@@ -68,7 +83,7 @@ struct HomeView: View {
         VStack(spacing: 16) {
             SectionHeaderView(
                 title: "Top of Week",
-                destination: AllBooksView()
+                destination: .books
             )
 
             topOfWeekBooks
@@ -76,6 +91,7 @@ struct HomeView: View {
     }
 
     // MARK: - Best Vendors Section
+
     var bestVendors: some View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 14) {
@@ -92,9 +108,8 @@ struct HomeView: View {
         VStack(spacing: 16) {
             SectionHeaderView(
                 title: "Best Vendors",
-                destination: VendorsView()
+                destination: .vendors
             )
-
             bestVendors
         }
     }
@@ -104,7 +119,12 @@ struct HomeView: View {
         ScrollView(.horizontal) {
             LazyHStack(spacing: 20) {
                 ForEach(authors) { author in
-                    AuthorCardView(author: author)
+                    NavigationLink(
+                        value: Root.authorsDetail(author)
+                    ) {
+                        AuthorCardView(author: author)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
             .padding(.horizontal, 24)
@@ -116,7 +136,7 @@ struct HomeView: View {
         VStack(spacing: 16) {
             SectionHeaderView(
                 title: "Authors",
-                destination: AuthorsView()
+                destination: .authors
             )
 
             authorsSlider
@@ -137,7 +157,14 @@ struct HomeView: View {
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
             .scrollIndicators(.hidden)
+            .navigationDestination(for: Root.self) { root in
+                navigationViewModel.destination(for: root)
+            }
         }
+        .sheet(item: $navigationViewModel.presentedSheet) { root in
+            navigationViewModel.destination(for: root)
+        }
+        .environmentObject(navigationViewModel)
     }
 }
 

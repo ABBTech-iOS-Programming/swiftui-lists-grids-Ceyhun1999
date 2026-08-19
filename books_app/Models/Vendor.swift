@@ -9,7 +9,6 @@ struct Vendor: Identifiable{
 }
 
 extension Vendor {
-
     static let mockData: [Vendor] = [
         Vendor(
             name: "Resant",

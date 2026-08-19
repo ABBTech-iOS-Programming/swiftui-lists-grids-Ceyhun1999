@@ -11,8 +11,10 @@ struct Book: Identifiable, Hashable {
     let discount: Int?
     let vendorImageURL: String
     let description: String
+    let rating: Int
 }
 
+// MARK: - Mock Data
 extension Book {
 
     static let mockdata: [Book] = [
@@ -24,7 +26,8 @@ extension Book {
             price: 14.99,
             discount: 20,
             vendorImageURL: "https://okmedia.az/img-yeni/resantlogo.png",
-            description: "A powerful story about friendship, betrayal, guilt and redemption set against the changing landscape of Afghanistan."
+            description: "A powerful story about friendship, betrayal, guilt and redemption set against the changing landscape of Afghanistan.",
+            rating: 4
         ),
 
         Book(
@@ -34,7 +37,8 @@ extension Book {
             price: 20.99,
             discount: nil,
             vendorImageURL: "https://okmedia.az/img-yeni/medeksph.png",
-            description: "A practical guide about choosing what truly matters in life and learning to accept difficulties instead of avoiding them."
+            description: "A practical guide about choosing what truly matters in life and learning to accept difficulties instead of avoiding them.",
+            rating: 5
         ),
 
         Book(
@@ -44,7 +48,8 @@ extension Book {
             price: 14.99,
             discount: 15,
             vendorImageURL: "https://okmedia.az/img-yeni/german-hosbital-referanslarlogo.png?=19",
-            description: "A classic work on strategy, leadership and conflict that explores how careful planning can lead to victory."
+            description: "A classic work on strategy, leadership and conflict that explores how careful planning can lead to victory.",
+            rating: 4
         ),
 
         Book(
@@ -54,7 +59,8 @@ extension Book {
             price: 18.99,
             discount: nil,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-milla-logo.png",
-            description: "A magical adventure following Harry Potter as he discovers the wizarding world and begins his journey at Hogwarts."
+            description: "A magical adventure following Harry Potter as he discovers the wizarding world and begins his journey at Hogwarts.",
+            rating: 5
         ),
 
         Book(
@@ -64,7 +70,8 @@ extension Book {
             price: 12.99,
             discount: 10,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-gilan-logo-2.png",
-            description: "A story of wealth, love and the American Dream centered around the mysterious millionaire Jay Gatsby."
+            description: "A story of wealth, love and the American Dream centered around the mysterious millionaire Jay Gatsby.",
+            rating: 4
         ),
 
         Book(
@@ -74,7 +81,8 @@ extension Book {
             price: 16.99,
             discount: nil,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-femina.png?=424",
-            description: "A moving novel about justice, prejudice and childhood seen through the eyes of a young girl growing up in the American South."
+            description: "A moving novel about justice, prejudice and childhood seen through the eyes of a young girl growing up in the American South.",
+            rating: 5
         ),
 
         Book(
@@ -84,7 +92,8 @@ extension Book {
             price: 11.99,
             discount: 25,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-casamia-logo.png",
-            description: "A dystopian novel about surveillance, control and a society where the government attempts to dominate every part of human life."
+            description: "A dystopian novel about surveillance, control and a society where the government attempts to dominate every part of human life.",
+            rating: 4
         ),
 
         Book(
@@ -94,7 +103,8 @@ extension Book {
             price: 13.99,
             discount: nil,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-mnx-logo.png",
-            description: "A coming-of-age story following Holden Caulfield as he struggles with identity, loneliness and the adult world."
+            description: "A coming-of-age story following Holden Caulfield as he struggles with identity, loneliness and the adult world.",
+            rating: 3
         ),
 
         Book(
@@ -104,7 +114,8 @@ extension Book {
             price: 10.99,
             discount: 30,
             vendorImageURL: "https://okmedia.az/img-yeni/cbc-logo-okmedia.png",
-            description: "A classic romantic novel about Elizabeth Bennet and Mr. Darcy, exploring love, pride, family and social expectations."
+            description: "A classic romantic novel about Elizabeth Bennet and Mr. Darcy, exploring love, pride, family and social expectations.",
+            rating: 5
         ),
 
         Book(
@@ -114,7 +125,20 @@ extension Book {
             price: 17.99,
             discount: nil,
             vendorImageURL: "https://okmedia.az/img-yeni/okmedia-btk-logo.png",
-            description: "A fantasy adventure following Bilbo Baggins as he leaves his peaceful home and joins a dangerous journey across Middle-earth."
+            description: "A fantasy adventure following Bilbo Baggins as he leaves his peaceful home and joins a dangerous journey across Middle-earth.",
+            rating: 4
         )
     ]
+}
+
+// MARK: - Formatted Values
+extension Book {
+
+    var formattedPrice: String {
+        "$\(price.formatted(.number.precision(.fractionLength(2))))"
+    }
+
+    var formattedRating: String {
+        "\(rating).0"
+    }
 }

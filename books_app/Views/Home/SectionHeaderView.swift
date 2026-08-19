@@ -1,20 +1,24 @@
 import SwiftUI
 
-struct SectionHeaderView<Destination: View>: View {
+struct SectionHeaderView: View {
+
     let title: String
-    let destination: Destination
-    
+    let destination: Root
+
     var body: some View {
+
         HStack(alignment: .center) {
+
             SectionTitleView(title: title)
 
             Spacer()
 
-            NavigationLink {
-                destination
-            } label: {
+            NavigationLink(value: destination) {
+
                 SeeAllTextView()
+
             }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, 24)
     }
